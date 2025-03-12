@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - argocd-ns.yaml
+  - vals-operator-ns.yaml
+  # Gateway API CRDs v1.1
+  # - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml
+  # Contour Gateway Provisioner
+  # This includes the Gateway API CRDS v1.0
+  # https://projectcontour.io/docs/main/config/gateway-api/
+  # https://projectcontour.io/docs/main/guides/gateway-api/#option-2-dynamically-provisioned
+  # https://projectcontour.io/getting-started/#option-3-contour-gateway-provisioner
+  - https://projectcontour.io/quickstart/contour-gateway-provisioner.yaml
+  - gateway.yaml

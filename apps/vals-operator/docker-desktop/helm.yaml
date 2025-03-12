@@ -1,0 +1,14 @@
+# Documentation: https://github.com/digitalis-io/vals-operator
+src:
+  repoUrl: "https://digitalis-io.github.io/helm-charts"
+  chart: vals-operator
+  targetRevision: 0.7.10
+
+helm:
+  values: |-
+    secretEnv:
+    - secretRef:
+        name: vals-onepassword
+
+dest:
+  namespace: vals-operator

@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+main() {
+    echo "Setting up local cluster"
+    echo
+
+    echo "Using docker-desktop context"
+    kubectl config use-context docker-desktop
+
+    echo "Setting default namespace to argocd"
+    kubectl config set-context --current --namespace=argocd
+
+    echo
+    echo "Using argocd-autopilot to bootstrap cluster"
+    echo
+    export ARGOCD_OPTS='--port-forward-namespace argocd --port-forward --insecure'
+    export GIT_REPO="https://github.com/shakefu/airflow-local"
+    # shellcheck disable=SC2155
+    export GIT_TOKEN="$(gh auth token)"
+    if [[ -z "${GIT_TOKEN}" ]]; then
+        echo "Could not get auth token from 'gh auth token' command"
+        exit 1
+    fi
+
+    # Bootstrap ArgoCD and the Apps
+    argocd-autopilot repo bootstrap --recover --app "${GIT_REPO}/bootstrap/argo-cd"
+
+    echo
+    echo "Setting password for 'admin' to 'airflow'"
+
+    # Get the initial password
+    local password
+    password=$(argocd admin initial-password | head -1)
+    if [[ -z "${password}" ]]; then
+        echo "Could not get initial password from 'argocd admin initial-password' command"
+        echo
+        echo "This may mean the password was already changed."
+    else
+        # Log in to ArgoCD
+        argocd login --username admin --password "${password}"
+
+        # Update the default password to 'airflow'
+        argocd account update-password --current-password "${password}" --new-password "airflow"
+    fi
+
+    echo "Starting shell with environment"
+    exec $SHELL
+}
+
+main "$@"

@@ -1,0 +1,11 @@
+# Documentation: https://argocd-image-updater.readthedocs.io/en/stable/
+src:
+  repoUrl: "https://argoproj.github.io/argo-helm"
+  chart: argocd-image-updater
+  targetRevision: 0.10.2
+
+helm:
+  values: ""
+
+dest:
+  namespace: argocd

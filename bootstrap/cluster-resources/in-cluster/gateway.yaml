@@ -1,0 +1,33 @@
+---
+kind: GatewayClass
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: contour
+spec:
+  controllerName: projectcontour.io/gateway-controller
+---
+# This defines our Global Gateway which we want to use a wildcard certificate
+# with and do SNI based routing
+# https://gateway-api.sigs.k8s.io/guides/tls/#cross-namespace-certificate-references
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: contour
+  namespace: projectcontour
+spec:
+  gatewayClassName: contour
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: All
+    # This is a special protocol that allows the Contour HTTPProxy to handle SNI
+    # Documentation: https://projectcontour.io/docs/1.29/config/gateway-api/#routing-with-httpproxy-or-ingress
+    - name: https
+      protocol: projectcontour.io/https
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: All

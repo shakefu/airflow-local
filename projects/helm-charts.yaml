@@ -1,0 +1,82 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  annotations:
+    argocd-autopilot.argoproj-labs.io/default-dest-server: https://kubernetes.default.svc
+    argocd.argoproj.io/sync-options: PruneLast=true
+    argocd.argoproj.io/sync-wave: "-2"
+  creationTimestamp: null
+  name: helm-charts
+  namespace: argocd
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  description: Cluster-wide Helm applications
+  destinations:
+  - namespace: '*'
+    server: '*'
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  sourceRepos:
+  - '*'
+status: {}
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  creationTimestamp: null
+  name: helm-charts
+  namespace: argocd
+spec:
+  generators:
+  - matrix:
+      generators:
+      - git:
+          files:
+          - path: apps/**/helm.yaml
+          repoURL: https://github.com/shakefu/airflow-local.git
+          requeueAfterSeconds: 20
+          revision: ""
+      - clusters:
+          selector:
+            matchLabels:
+              argocd.argoproj.io/secret-type: cluster
+              argocd/cluster: '{{ path.basename }}'
+  syncPolicy: {}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/managed-by: helm-charts
+        app.kubernetes.io/name: '{{ src.chart }}'
+      name: helm-charts-{{ src.chart }}
+      namespace: argocd
+    spec:
+      destination:
+        namespace: '{{ dest.namespace }}'
+        name: '{{ name }}'
+      ignoreDifferences:
+      - group: argoproj.io
+        jsonPointers:
+        - /status
+        kind: Application
+      project: helm-charts
+      source:
+        repoURL: '{{ src.repoUrl }}'
+        chart: '{{ src.chart }}'
+        targetRevision: '{{ src.targetRevision }}'
+        helm:
+          releaseName: '{{ src.chart }}'
+          values: '{{ helm.values }}'
+      syncPolicy:
+        automated:
+          prune: true
+          allowEmpty: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
+status: {}

@@ -1,0 +1,19 @@
+# Documentation: https://argo-rollouts.readthedocs.io/en/stable/
+src:
+  repoUrl: "https://argoproj.github.io/argo-helm"
+  chart: argo-rollouts
+  targetRevision: 2.37.1
+
+helm:
+  values: |-
+    global:
+      deploymentLabels:
+        helm-charts: 'true'
+    controller:
+      trafficRouterPlugins:
+        trafficRouterPlugins: |-
+          - name: "argoproj-labs/gatewayAPI"
+            location: "https://github.com/argoproj-labs/rollouts-plugin-trafficrouter-gatewayapi/releases/download/v0.3.0/gateway-api-plugin-linux-amd64"
+
+dest:
+  namespace: argo-rollouts

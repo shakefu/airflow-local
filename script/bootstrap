@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+main (){
+    echo "Bootstrapping dependencies"
+    echo
+
+    if [[ "$OSTYPE" != "darwin"* ]]; then
+        echo "This script is only for MacOS"
+        exit 1
+    fi
+
+    brew update
+    brew install \
+        argocd \
+        argocd-autopilot \
+        coreutils \
+        gh \
+        kubectl \
+        ngrok/ngrok/ngrok
+
+    echo
+    echo "Done"
+}
+
+main "$@"

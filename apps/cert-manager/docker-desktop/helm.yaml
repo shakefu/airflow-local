@@ -1,0 +1,17 @@
+# Documentation: https://cert-manager.io/docs/
+# Helm chart: https://github.com/cert-manager/cert-manager
+# Helm values: https://github.com/cert-manager/cert-manager/blob/master/deploy/charts/cert-manager/values.yaml
+src:
+  repoUrl: "https://charts.jetstack.io"
+  chart: cert-manager
+  targetRevision: v1.15.1
+
+helm:
+  values: |-
+    crds:
+      enabled: true
+    extraArgs:
+      - --enable-gateway-api
+
+dest:
+  namespace: cert-manager
