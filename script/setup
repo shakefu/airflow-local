@@ -26,7 +26,7 @@ main() {
     argocd-autopilot repo bootstrap --recover --app "${GIT_REPO}/bootstrap/argo-cd"
 
     echo
-    echo "Setting password for 'admin' to 'airflow'"
+    echo "Setting password for 'admin' to 'airflow-local'"
 
     # Get the initial password
     local password
@@ -39,8 +39,8 @@ main() {
         # Log in to ArgoCD
         argocd login --username admin --password "${password}"
 
-        # Update the default password to 'airflow'
-        argocd account update-password --current-password "${password}" --new-password "airflow"
+        # Update the default password to 'airflow-local'
+        argocd account update-password --current-password "${password}" --new-password "airflow-local"
     fi
 
     echo "Starting shell with environment"
