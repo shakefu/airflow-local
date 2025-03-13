@@ -1,0 +1,22 @@
+# Documentation: https://airflow.apache.org/docs/helm-chart/stable/index.html
+#                https://github.com/apache/airflow
+# Helm chart: https://github.com/apache/airflow/tree/main/chart/
+# Helm values: https://github.com/apache/airflow/blob/main/chart/values.yaml
+src:
+  repoUrl: "https://airflow.apache.org/docs/helm-chart/stable"
+  chart: airflow
+  targetRevision: 1.16.0
+
+helm:
+  values: |-
+    useStandardNaming: true
+    createUserJob:
+      useHelmHooks: false
+      applyCustomEnv: false
+    migrateDatabaseJob:
+      useHelmHooks: false
+      applyCustomEnv: false
+      jobAnnotations:
+        "argocd.argoproj.io/hook": Sync
+dest:
+  namespace: airflow
