@@ -3,7 +3,7 @@
 # Helm chart: https://github.com/apache/airflow/tree/main/chart/
 # Helm values: https://github.com/apache/airflow/blob/main/chart/values.yaml
 src:
-  repoUrl: "https://airflow.apache.org/docs/helm-chart/stable"
+  repoUrl: "https://airflow.apache.org/"
   chart: airflow
   targetRevision: 1.16.0
 
