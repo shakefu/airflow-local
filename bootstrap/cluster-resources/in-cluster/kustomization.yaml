@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - argocd-ns.yaml
-  - vals-operator-ns.yaml
   # Gateway API CRDs v1.1
   # - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml
   # Contour Gateway Provisioner
