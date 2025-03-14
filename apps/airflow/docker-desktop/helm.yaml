@@ -21,7 +21,7 @@ helm:
     images:
       airflow:
         repository: shakefu/airflow-local
-        tag: latest
+        tag: 96e7ff6
         pullPolicy: Always
 
 dest:
