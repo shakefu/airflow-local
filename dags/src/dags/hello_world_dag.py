@@ -1,4 +1,5 @@
 import airflow
+import airflow.operators.python
 
 
 def hello_world_task():
@@ -12,7 +13,7 @@ with airflow.DAG(
     start_date=airflow.utils.dates.days_ago(1),
     catchup=False,
 ) as dag:
-    hello_world_task = airflow.operators.python_operator.PythonOperator(
+    hello_world_task = airflow.operators.python.PythonOperator(
         task_id="hello_world_task",
         python_callable=hello_world_task,
     )
