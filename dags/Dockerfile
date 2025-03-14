@@ -1,3 +1,3 @@
 FROM apache/airflow
 
-COPY ./src/dags/ \${AIRFLOW_HOME}/dags/
+COPY ./src/dags/ /opt/airflow/dags/
