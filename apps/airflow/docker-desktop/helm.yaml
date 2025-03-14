@@ -4,7 +4,7 @@
 # Helm values: https://github.com/apache/airflow/blob/main/chart/values.yaml
 src:
   repoUrl: "https://airflow.apache.org/"
-  chart: airflow
+  chart: apache-airflow/airflow
   targetRevision: 1.16.0
 
 helm:
