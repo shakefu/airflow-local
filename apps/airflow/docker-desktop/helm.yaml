@@ -24,7 +24,7 @@ helm:
     images:
       airflow:
         repository: shakefu/airflow-local
-        tag: f5f45be
+        tag: be7b6b4
         pullPolicy: Always
 
 dest:
