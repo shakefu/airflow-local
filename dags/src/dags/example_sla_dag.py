@@ -1,4 +1,3 @@
-import datetime
 import time
 
 import pendulum
@@ -26,15 +25,20 @@ def sla_callback(dag, task_list, blocking_task_list, slas, blocking_tis):
     default_args={"email": "email@example.com"},
 )
 def example_sla_dag():
-    @task(sla=datetime.timedelta(seconds=25))
+    # @task(sla=datetime.timedelta(seconds=25))
+    @task()
     def sleep_20():
         """Sleep for 20 seconds"""
+        print("Sleeping for 20 seconds")
         time.sleep(20)
+        print("Done sleeping")
 
     @task
     def sleep_30():
         """Sleep for 30 seconds"""
+        print("Sleeping for 30 seconds")
         time.sleep(30)
+        print("Done sleeping")
 
     sleep_20() >> sleep_30()
 
