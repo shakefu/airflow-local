@@ -26,7 +26,7 @@ def sla_callback(dag, task_list, blocking_task_list, slas, blocking_tis):
     default_args={"email": "email@example.com"},
 )
 def example_sla_dag():
-    @task(sla=datetime.timedelta(seconds=10))
+    @task(sla=datetime.timedelta(seconds=25))
     def sleep_20():
         """Sleep for 20 seconds"""
         time.sleep(20)
