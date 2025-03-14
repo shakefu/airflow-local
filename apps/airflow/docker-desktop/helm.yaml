@@ -18,7 +18,6 @@ helm:
       applyCustomEnv: false
       jobAnnotations:
         "argocd.argoproj.io/hook": Sync
-    webserverSecretKey: 348d5e8c3a261393828096622efdb19e
     images:
       airflow:
         repository: shakefu/airflow-local
