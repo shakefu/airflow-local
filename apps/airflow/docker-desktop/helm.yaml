@@ -10,6 +10,9 @@ src:
 helm:
   values: |-
     useStandardNaming: true
+    webserver:
+      defaultUser:
+        enabled: false
     createUserJob:
       useHelmHooks: false
       applyCustomEnv: false
